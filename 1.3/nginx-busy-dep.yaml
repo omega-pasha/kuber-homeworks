@@ -15,9 +15,10 @@ spec:
       initContainers:
         - name: init-container
           image: busybox
-          command: ['sh', '-c', 'until nslookup nginx-service; do echo waiting for nginx-service; sleep 2; done']
+          command: ['sh', '-c', 'until nslookup nginx-service.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo>
+eep 10; done']
       containers:
-        - name: nginx
+        - name: nginx-container
           image: nginx
           ports:
             - containerPort: 80
