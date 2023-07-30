@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multitool-busybox-deployment
+  labels:
+    app: mb-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: multitool-busybox
+  template:
+    metadata:
+      labels:
+        app: multitool-busybox
+    spec:
+      containers:
+        - name: multitool
+          image: wbitt/network-multitool
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: local-storage
+              mountPath: /data
+        - name: busybox-container
+          image: busybox
+          command: ["sh", "-c", "while true; do echo $(date) >> /data/log.txt; sleep 5; done"]
+          volumeMounts:
+            - name: local-storage
+              mountPath: /data
+      volumes:
+        - name: local-storage
+          persistentVolumeClaim:
+            claimName: local-pvc
