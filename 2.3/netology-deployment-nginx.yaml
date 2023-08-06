@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-multitool-busybox-deployment
+  labels:
+    app: nmb-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nmb-deployment
+  template:
+    metadata:
+      labels:
+        app: nmb-deployment
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:latest
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+          - name: html-volume
+            mountPath: /usr/share/nginx/html
+        - name: multitool-container
+          image: wbitt/network-multitool
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: HTTP_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: multitool-cm
+                key: http_port
+        - name: busybox-container
+          image: busybox
+          imagePullPolicy: IfNotPresent
+          command: ["sleep", "3600"]
+      volumes:
+       - name: html-volume
+         configMap:
+           name: nginx-index-cm
