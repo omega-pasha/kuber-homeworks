@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cache
+  namespace: app
+  labels:
+    app: cache
+spec:
+  selector:
+    matchLabels:
+      app: cache
+  template:
+    metadata:
+      labels:
+        app: cache
+    spec:
+      containers:
+        - name: cache
+          image: wbitt/network-multitool
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cache-service
+  namespace: app
+spec:
+  selector:
+    app: cache
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
