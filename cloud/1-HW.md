@@ -65,6 +65,21 @@ public-instance_external_ip_address = [
 public-instance_iternal_ip_address = [
   "192.168.10.29",
 ]
+```
+Созданные ресурсы
+![](https://github.com/omega-pasha/kuber-homeworks/blob/main/cloud/2023-08-23_01-26-12.png)
 
+Traceroute from public
+![](https://github.com/omega-pasha/kuber-homeworks/blob/main/cloud/2023-08-23_01-10-15.png)
+
+Traceroute from private
+![](https://github.com/omega-pasha/kuber-homeworks/blob/main/cloud/2023-08-23_01-11-53%202.png)
+
+Видно, что чтобы попасть на ya.ru, маршрут сперва проходит через nat-instance
+```
+ 1  192.168.20.1 (192.168.20.1)  0.422 ms  0.398 ms  0.383 ms
+ 2  * * *
+ 3  nat-instance-0.ru-central1.internal (192.168.10.254)  0.894 ms  0.910 ms  0.891 ms
+ 4  nat-instance-0.ru-central1.internal (192.168.10.254)  0.866 ms  0.847 ms  0.828 ms
 ```
 
